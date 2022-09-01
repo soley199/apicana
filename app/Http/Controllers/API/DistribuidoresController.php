@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\API\Resource;
-use App\Http\Resources\VehiculoResource;
-use App\Models\Vehiculo;
+use App\Models\Distribuidores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class VehiculoController extends Controller
+
+class DistribuidoresController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,29 +16,8 @@ class VehiculoController extends Controller
      */
     public function index()
     {
-        return VehiculoResource::collection(Vehiculo::all());
-
-        //$sql = 'SELECT * FROM vehiculos';
-        //$sql = 'SELECT marca FROM vehiculos GROUP by marca;';
-        //$products = DB::select($sql);
-        //return $products;
-
+        return Distribuidores::all();
     }
-
-    public function show($id){
-        //print($vehiculo);
-        //return new VehiculoResource($vehiculo);
-
-        //$sql = 'SELECT * FROM vehiculos WHERE delantera LIKE "%?%" OR trasera LIKE "%?%"',[$id];
-        //$products = DB::select('SELECT * FROM vehiculos WHERE delantera LIKE "%?%" OR trasera LIKE "%?%"',[$id,$id]);
-        $column = 'delantera';
-
-        $products = DB::select("select * from vehiculos where delantera LIKE ? OR trasera LIKE ?",['%'.$id.'%','%'.$id.'%']);
-        return $products;
-        //
-    }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -52,7 +30,18 @@ class VehiculoController extends Controller
         //
     }
 
-  
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $products = DB::select("select vehiculo from vehiculos where marca = ?",[$id]);
+        return $products;
+        
+    }
 
     /**
      * Update the specified resource in storage.
